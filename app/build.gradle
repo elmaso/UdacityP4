@@ -21,9 +21,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.1.0'
     // Added for AdMob
     //compile 'com.google.android.gms:play-services:7.3.0'
+    compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.google.android.gms:play-services-ads:8.4.0'
 
     //add jokester
@@ -31,4 +31,7 @@ dependencies {
 
     //Add jokeandroid activity
     compile project(':jokeandroid')
+
+    //Add Backend
+    compile project(path: ':backend', configuration: 'android-endpoints')
 }

@@ -6,10 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.masoheis.JokeMachine;
-
-import sunshine.mariosoberanis.udacity.jokeandroid.JokeActivity;
-
 
 public class MainActivity extends ActionBarActivity {
 
@@ -42,15 +38,18 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void tellJoke(View view){
-        JokeMachine joke = new JokeMachine();
+    public void tellJoke(View view) {
+
         // We changes this to an Intent Android Activity
         // Toast.makeText(this, joke.getJoke(), Toast.LENGTH_SHORT).show();
 
         //Call Jokeandroid
 
+        /* Code to invoque intent
+        JokeMachine joke = new JokeMachine();
         startActivity(JokeActivity.launchIntent(this, joke.getJoke()));
+        */
+        new GetJokeAsyncTask(this).execute();
+
     }
-
-
 }

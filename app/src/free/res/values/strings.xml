@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Build it Bigger Free</string>
+    <string name="interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="device_id" translatable="false">0A518C063779375B3FC7F95FD99DCF4A</string>
 </resources>

@@ -11,12 +11,13 @@ public class NonEmptyStringTest extends AndroidTestCase {
     private static String LOG_TAG = "NonEmptyStringTest";
 
     @SuppressWarnings("unchecked")
-    public void runTest() {
+    public void test() {
         // Testeting that the async task dosetn return emptu string
         // To test --> Run  'All Tests'
+        Log.v(LOG_TAG,"Running NonEmptyStringTetst test");
 
         String result = null;
-        GetJokeAsyncTask endpointsAsyncTask = new GetJokeAsyncTask(getContext());
+        GetJokeAsyncTask endpointsAsyncTask = new GetJokeAsyncTask(getContext(),null);
         endpointsAsyncTask.execute();
         try {
             result = endpointsAsyncTask.get();

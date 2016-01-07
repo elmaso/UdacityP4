@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.mariosoberanis.jokes.backend.myApi.MyApi;
 import com.google.android.gms.ads.AdListener;
@@ -25,12 +27,22 @@ public class GetJokeAsyncTask extends AsyncTask<Pair<Context, String>, Void, Str
     private Context context;
     private String mResult;
     private InterstitialAd mInterstitialAd;
+    private ProgressBar mProgressBar;
 
-    public GetJokeAsyncTask(Context context) {
+    public GetJokeAsyncTask(Context context, ProgressBar progressBar) {
         this.context = context;
+        this.mProgressBar = progressBar;
     }
 
-    //private static final String LOG_TAG = this.context;
+
+    @Override
+    protected void onPreExecute(){
+        super.onPreExecute();
+        if(mProgressBar != null){
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
 
 
     @Override
@@ -63,7 +75,19 @@ public class GetJokeAsyncTask extends AsyncTask<Pair<Context, String>, Void, Str
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
+                if (mProgressBar != null) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
                 mInterstitialAd.show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                super.onAdFailedToLoad(errorCode);
+                if (mProgressBar != null) {
+                    mProgressBar.setVisibility(View.GONE);
+                }
+                startJokeDisplay();
             }
 
             @Override

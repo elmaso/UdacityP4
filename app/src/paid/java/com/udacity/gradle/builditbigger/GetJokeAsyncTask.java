@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Pair;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.mariosoberanis.jokes.backend.myApi.MyApi;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -14,19 +16,27 @@ import java.io.IOException;
 import sunshine.mariosoberanis.udacity.jokeandroid.JokeActivity;
 
 
-
 /**
  * Created by mariosoberanis on 12/30/15.
  */
 public class GetJokeAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
+    private ProgressBar mProgressBar;
+    private String mResult;
 
-    public GetJokeAsyncTask(Context context) {
+    public GetJokeAsyncTask(Context context, ProgressBar progressBar) {
         this.context = context;
+        this.mProgressBar = progressBar;
     }
 
-    //private static final String LOG_TAG = this.context;
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if (mProgressBar != null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
 
 
     @Override
@@ -38,7 +48,7 @@ public class GetJokeAsyncTask extends AsyncTask<Pair<Context, String>, Void, Str
                     // - 10.0.2.2 is localhost's IP address in Android emulator
                     // - turn off compression when running against local devappserver
                     // .setRootUrl("http://10.0.2.2:8080/_ah/api/");
-            .setRootUrl("https://elmaso.appspot.com/_ah/api/");
+                    .setRootUrl("https://elmaso.appspot.com/_ah/api/");
             myApiService = builder.build();
         }
         try {
@@ -49,12 +59,19 @@ public class GetJokeAsyncTask extends AsyncTask<Pair<Context, String>, Void, Str
     }
 
     @Override
-    protected void onPostExecute(String result){
-        // This only shows the Tost
-        // Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-        // He we connet to jokeandroid
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        mResult = result;
+        if (mProgressBar != null){
+            mProgressBar.setVisibility(View.GONE);
+        }
+        startJokeDisplay();
+
+    }
+
+    protected void startJokeDisplay() {
         Intent intent = new Intent(context, JokeActivity.class);
-        intent.putExtra(JokeActivity.JOKE, result);
+        intent.putExtra(JokeActivity.JOKE, mResult);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
 
